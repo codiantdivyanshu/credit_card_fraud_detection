@@ -60,3 +60,10 @@ plt.ylabel("Actual")
 plt.xlabel("Predicted")
 plt.tight_layout()
 plt.show()
+
+import joblib
+
+# Save model
+joblib.dump(model, 'model.pkl')
+print("Model saved to model.pkl")
+
