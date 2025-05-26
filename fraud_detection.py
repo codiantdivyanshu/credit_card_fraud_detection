@@ -10,7 +10,9 @@ import seaborn as sns
 import matplotlib.pyplot as plt
 import joblib
 
-# Load ARFF file
+print("Starting fraud_detection.py script...")
+
+
 with open('creditcard.arff', 'r') as f:
     data = arff.load(f)
 
