@@ -27,6 +27,10 @@ df['Class'] = df['Class'].astype(int)
 print("Class distribution:\n", df['Class'].value_counts())
 
 # Preprocessing: normalize 'Amount' and 'Time'
+df['Amount'] = pd.to_numeric(df['Amount'], errors='coerce')
+df['Time'] = pd.to_numeric(df['Time'], errors='coerce')
+df.dropna(subset=['Amount', 'Time'], inplace=True)
+
 df['normAmount'] = StandardScaler().fit_transform(df[['Amount']])
 df['normTime'] = StandardScaler().fit_transform(df[['Time']])
 df.drop(['Amount', 'Time'], axis=1, inplace=True)
