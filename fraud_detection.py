@@ -9,7 +9,7 @@ import seaborn as sns
 import matplotlib.pyplot as plt
 
 # Load ARFF file
-with open('creditcard.csv', 'r') as f:
+with open('creditcard.arff', 'r') as f:
     data = arff.load(f)
 
 # Convert to DataFrame
