@@ -3,8 +3,9 @@ import pandas as pd
 import numpy as np
 import joblib
 from sklearn.preprocessing import StandardScaler
+import joblib 
 
-# Load model
+joblib.dump(model , 'model.pkl')
 model = joblib.load("model.pkl")
 
 # Title
