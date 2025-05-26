@@ -48,11 +48,20 @@ print("After resampling, counts of label '1': {}".format(sum(y_resampled == 1)))
 X_train, X_test, y_train, y_test = train_test_split(
     X_resampled, y_resampled, test_size=0.2, random_state=42
 )
+print("Shape of X_train:", X_train.shape)
+print("Shape of y_train:", y_train.shape)
+print("Shape of X_test:", X_test.shape)
+print("Shape of y_test:", y_test.shape)
+
+print("Unique classes in y_train:", set(y_train))
+print("Class distribution in y_train:")
+print(pd.Series(y_train).value_counts())
 
 # Train RandomForest
 model = RandomForestClassifier(n_estimators=100, random_state=42)
+print("Starting model training..")
 model.fit(X_train, y_train)
-print("Model trained.")
+print("Model trained successfully")
 
 # Predict & Evaluate
 y_pred = model.predict(X_test)
@@ -73,4 +82,5 @@ plt.show()
 # Save model
 joblib.dump(model, 'model.pkl')
 print("Model saved to model.pkl")
+
 
