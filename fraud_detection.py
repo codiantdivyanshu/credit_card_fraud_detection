@@ -7,6 +7,7 @@ from sklearn.ensemble import RandomForestClassifier
 from sklearn.metrics import classification_report, confusion_matrix, roc_auc_score
 import seaborn as sns
 import matplotlib.pyplot as plt
+import joblib  # <-- Import added here
 
 # Load ARFF file
 with open('creditcard.arff', 'r') as f:
@@ -45,6 +46,10 @@ model = RandomForestClassifier(n_estimators=100, random_state=42)
 model.fit(X_train, y_train)
 print("Model trained.")
 
+# Save model to disk
+joblib.dump(model, 'model.pkl')
+print("Model saved to model.pkl")  # <-- Save model here
+
 # Predict & Evaluate
 y_pred = model.predict(X_test)
 
@@ -60,10 +65,4 @@ plt.ylabel("Actual")
 plt.xlabel("Predicted")
 plt.tight_layout()
 plt.show()
-
-import joblib
-
-# Save model
-joblib.dump(model, 'model.pkl')
-print("Model saved to model.pkl")
 
