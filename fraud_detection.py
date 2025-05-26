@@ -7,7 +7,7 @@ from sklearn.ensemble import RandomForestClassifier
 from sklearn.metrics import classification_report, confusion_matrix, roc_auc_score
 import seaborn as sns
 import matplotlib.pyplot as plt
-import joblib  # <-- Import added here
+import joblib
 
 # Load ARFF file
 with open('creditcard.arff', 'r') as f:
@@ -15,14 +15,18 @@ with open('creditcard.arff', 'r') as f:
 
 # Convert to DataFrame
 df = pd.DataFrame(data['data'], columns=[attr[0] for attr in data['attributes']])
-
 print(df.head())
 print("Dataset Loaded. Shape:", df.shape)
 
-# Check if 'Class' column exists (in your dataset it should)
+# Ensure 'Class' column is numeric
+df['Class'] = pd.to_numeric(df['Class'], errors='coerce')
+df.dropna(subset=['Class'], inplace=True)
+df['Class'] = df['Class'].astype(int)
+
+# Check class distribution
 print("Class distribution:\n", df['Class'].value_counts())
 
-# Preprocessing
+# Preprocessing: normalize 'Amount' and 'Time'
 df['normAmount'] = StandardScaler().fit_transform(df[['Amount']])
 df['normTime'] = StandardScaler().fit_transform(df[['Time']])
 df.drop(['Amount', 'Time'], axis=1, inplace=True)
@@ -46,10 +50,6 @@ model = RandomForestClassifier(n_estimators=100, random_state=42)
 model.fit(X_train, y_train)
 print("Model trained.")
 
-# Save model to disk
-joblib.dump(model, 'model.pkl')
-print("Model saved to model.pkl")  # <-- Save model here
-
 # Predict & Evaluate
 y_pred = model.predict(X_test)
 
@@ -65,4 +65,8 @@ plt.ylabel("Actual")
 plt.xlabel("Predicted")
 plt.tight_layout()
 plt.show()
+
+# Save model
+joblib.dump(model, 'model.pkl')
+print("Model saved to model.pkl")
 
