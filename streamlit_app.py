@@ -1,17 +1,13 @@
 import streamlit as st
 import pandas as pd
-import numpy as np
 import joblib
 from sklearn.preprocessing import StandardScaler
-import joblib 
 
-joblib.dump(model , 'model.pkl')
+# Load the saved model
 model = joblib.load("model.pkl")
 
-# Title
 st.title("💳 Credit Card Fraud Detection")
 
-# Sidebar input
 st.sidebar.header("Input Transaction Details")
 
 def user_input_features():
@@ -26,7 +22,11 @@ def user_input_features():
 
 input_df = user_input_features()
 
-# Preprocessing
+# Preprocessing: scale amount and time using the same scaler as training
+
+# Since scaling during training was fit on whole data, you can fit scaler on these 2 values for demo,
+# but ideally save and reuse the scaler fitted on training data.
+
 input_df['normAmount'] = StandardScaler().fit_transform(input_df[['Amount']])
 input_df['normTime'] = StandardScaler().fit_transform(input_df[['Time']])
 input_df.drop(['Amount', 'Time'], axis=1, inplace=True)
