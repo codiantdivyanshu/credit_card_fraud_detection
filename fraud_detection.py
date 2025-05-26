@@ -2,9 +2,17 @@
 
 # STEP 2: Load the Dataset
 import pandas as pd
+import arff 
 
-# Replace with your dataset path
-df = pd.read_csv('creditcard.csv')
+with open('creditcard.csv', 'r') as f:
+    data = arff.load(f)
+
+# Convert to DataFrame
+df = pd.DataFrame(data['data'], columns=[attr[0] for attr in data['attributes']])
+
+print(df.head())
+
+
 print("Dataset Loaded. Shape:", df.shape)
 
 # STEP 3: Explore the Dataset
@@ -63,7 +71,8 @@ import matplotlib.pyplot as plt
 plt.figure(figsize=(6, 4))
 sns.heatmap(confusion_matrix(y_test, y_pred), annot=True, fmt='d', cmap='Blues')
 plt.title("Confusion Matrix")
-plt.xlabel("Predicted")
+
+
 plt.ylabel("Actual")
 plt.tight_layout()
 plt.show()
